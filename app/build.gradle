@@ -4,7 +4,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.github.kloping.app.myq.voiceqq"
@@ -15,24 +15,24 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.md'
-        exclude 'META-INF/LICENSE-notice.md'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/ASL2.0'
-        exclude("META-INF/*.kotlin_module")
-        exclude 'silk4j_libs/windows-shared-x64/*'
-        exclude 'silk4j_libs/windows-shared-x86/*'
-        exclude 'silk4j_libs/macos-x64/*'
-        exclude 'silk4j_libs/filelist.txt'
-    }
+//
+//    packagingOptions {
+//        exclude 'META-INF/DEPENDENCIES'
+//        exclude 'META-INF/LICENSE'
+//        exclude 'META-INF/LICENSE.md'
+//        exclude 'META-INF/LICENSE-notice.md'
+//        exclude 'META-INF/LICENSE.txt'
+//        exclude 'META-INF/license.txt'
+//        exclude 'META-INF/NOTICE'
+//        exclude 'META-INF/NOTICE.txt'
+//        exclude 'META-INF/notice.txt'
+//        exclude 'META-INF/ASL2.0'
+//        exclude("META-INF/*.kotlin_module")
+//        exclude 'silk4j_libs/windows-shared-x64/*'
+//        exclude 'silk4j_libs/windows-shared-x86/*'
+//        exclude 'silk4j_libs/macos-x64/*'
+//        exclude 'silk4j_libs/filelist.txt'
+//    }
 
     buildTypes {
         release {
