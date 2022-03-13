@@ -11,6 +11,8 @@ import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -87,7 +89,7 @@ public class MyService extends Service {
         }
         SERVICE.submit(() -> {
             Long q = intent.getLongExtra("q", -1L);
-            String p = intent.getStringExtra("p");
+            String p = intent.getStringExtra("p").trim();
             BotConfiguration configuration = new BotConfiguration();
             configuration.setProtocol(protocol);
             File file = getApplicationContext().getCacheDir();
@@ -134,9 +136,30 @@ public class MyService extends Service {
                     VoicePlayer.getInstance().appendSpeak(s0);
                     qid = event.getSender().getId();
                 }
+
+                @EventHandler
+                public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
+                    if (containsAtMe(event)) {
+                        String s0 = getStringFromMessageChain(event.getMessage());
+                        s0 = event.getSender().getNick() + "在" + event.getSubject().getName() + "群里提到了你:" + s0;
+                        VoicePlayer.getInstance().appendSpeak(s0);
+                        qid = event.getSender().getId();
+                    }
+                }
             });
         });
         return START_STICKY;
+    }
+
+    private boolean containsAtMe(MessageEvent event) {
+        long iid = event.getBot().getId();
+        for (SingleMessage singleMessage : event.getMessage()) {
+            if (singleMessage instanceof At) {
+                At at = (At) singleMessage;
+                if (at.getTarget() == iid) return true;
+            }
+        }
+        return false;
     }
 
     /**

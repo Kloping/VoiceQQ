@@ -30,8 +30,6 @@ import net.mamoe.mirai.utils.BotConfiguration;
 
 import java.io.File;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author github-kloping
@@ -98,8 +96,8 @@ public class LoginActivity extends AppCompatActivity implements ListenerHost {
         JSONObject jo = JSON.parseObject(FileUtils.getStringFromFile(file.getAbsolutePath()));
         if (jo == null) return;
         Long q = jo.getLong("q");
-        String p = jo.getString("p");
-        String base = jo.getString("base");
+        String p = jo.getString("p").trim();
+        String base = jo.getString("base").trim();
         MyService.protocol = BotConfiguration.MiraiProtocol.valueOf(jo.getString("Protocol"));
         binding.qqNumber.setText(q.toString());
         binding.password.setText(p);
