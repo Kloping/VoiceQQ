@@ -36,16 +36,23 @@ public class MyService extends Service {
 
     private Intent intent;
 
-    public static String getStringFromMessageChain(MessageChain event) {
+    public static String getStringFromMessageChain(MessageEvent event) {
         StringBuilder sb = new StringBuilder();
-        for (Object o : event) {
+        for (Object o : event.getMessage()) {
             if (o instanceof OnlineMessageSource)
                 continue;
             if (o instanceof PlainText) {
                 sb.append(((PlainText) o).getContent());
             } else if (o instanceof At) {
-                At at = (At) o;
-                sb.append("[@").append(at.getTarget()).append("]");
+                if (event instanceof GroupMessageEvent) {
+                    GroupMessageEvent gme = (GroupMessageEvent) event;
+                    At at = (At) o;
+                    if (at.getTarget() == gme.getBot().getId()) {
+                        sb.append("at我");
+                    } else {
+                        sb.append("[at").append(at.getDisplay(gme.getGroup())).append("]");
+                    }
+                }
             } else if (o instanceof FlashImage) {
                 FlashImage flashImage = (FlashImage) o;
                 sb.append("[一张闪照").append(Image.queryUrl(flashImage.getImage())).append("]");
@@ -57,7 +64,9 @@ public class MyService extends Service {
             } else if (o instanceof Image) {
                 Image image = (Image) o;
                 sb.append("[一张图片]");
-            } else continue;
+            } else {
+                continue;
+            }
         }
         String s0 = sb.toString();
         if (s0.length() >= 100) {
@@ -129,7 +138,7 @@ public class MyService extends Service {
 
                 @EventHandler
                 public void onMessage(@NotNull FriendMessageEvent event) throws Exception {
-                    String s0 = getStringFromMessageChain(event.getMessage());
+                    String s0 = getStringFromMessageChain(event);
                     if (qid == null || qid != event.getSender().getId()) {
                         s0 = event.getSender().getNick() + "给你发了: " + s0;
                     }
@@ -140,7 +149,7 @@ public class MyService extends Service {
                 @EventHandler
                 public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
                     if (containsAtMe(event)) {
-                        String s0 = getStringFromMessageChain(event.getMessage());
+                        String s0 = getStringFromMessageChain(event);
                         s0 = event.getSender().getNick() + "在" + event.getSubject().getName() + "群里提到了你:" + s0;
                         VoicePlayer.getInstance().appendSpeak(s0);
                         qid = event.getSender().getId();
