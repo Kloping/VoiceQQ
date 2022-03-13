@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.login.LoginActivity">
+    <LinearLayout
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+        <RadioGroup
+                android:id="@+id/radiogroup1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+            <RadioButton
+                    android:id="@+id/radiobutton1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/ipad"/>
+
+            <RadioButton
+                    android:id="@+id/radiobutton2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/phone"/>
+            <RadioButton
+                    android:id="@+id/radiobutton3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:text="@string/watch"/>
+
+        </RadioGroup>
+        <EditText
+                android:id="@+id/qq_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_qq"
+                android:inputType="number"
+                android:selectAllOnFocus="true"/>
+
+        <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:selectAllOnFocus="true"
+                app:layout_constraintTop_toBottomOf="@+id/qq_number"/>
+
+        <EditText
+                android:id="@+id/baseurl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/vbase"
+                android:imeOptions="actionDone"
+                android:inputType="textUri"
+                android:selectAllOnFocus="true"
+                app:layout_constraintTop_toBottomOf="@+id/password"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center">
+            <Button
+                    android:id="@+id/login"
+                    android:enabled="false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/action_sign_in"
+                    app:layout_constraintTop_toBottomOf="@+id/password"
+                    app:layout_constraintVertical_bias="0.2"/>
+        </LinearLayout>
+        <ListView
+                android:id="@+id/outLog"
+                android:enabled="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/action_sign_in"
+                app:layout_constraintTop_toBottomOf="@+id/login"/>
+
+        <ProgressBar
+                android:id="@+id/loading"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:layout_constraintVertical_bias="0.3"/>
+
+    </LinearLayout>
+</LinearLayout>
