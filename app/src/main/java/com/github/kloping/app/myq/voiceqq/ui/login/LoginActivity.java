@@ -19,10 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.kloping.app.myq.voiceqq.MyService;
-import com.github.kloping.app.myq.voiceqq.OutManager;
-import com.github.kloping.app.myq.voiceqq.R;
-import com.github.kloping.app.myq.voiceqq.VoicePlayer;
+import com.github.kloping.app.myq.voiceqq.*;
 import com.github.kloping.app.myq.voiceqq.databinding.ActivityLoginBinding;
 import io.github.kloping.file.FileUtils;
 import net.mamoe.mirai.event.ListenerHost;
@@ -58,6 +55,8 @@ public class LoginActivity extends AppCompatActivity implements ListenerHost {
         new CheckInputManager(loginButton).add(qqEditText).add(passwordEditText, R.string.qq_password_length_most_short, 8);
         load();
         checkPermission();
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 10);
+        SystemUtil.context = this;
         System.err.println("初始化完成");
     }
 

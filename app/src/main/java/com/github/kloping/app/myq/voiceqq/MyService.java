@@ -3,6 +3,7 @@ package com.github.kloping.app.myq.voiceqq;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.github.kloping.file.FileUtils;
 import kotlin.coroutines.CoroutineContext;
@@ -13,6 +14,7 @@ import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.event.events.StrangerMessageEvent;
 import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -111,8 +113,9 @@ public class MyService extends Service {
             File f1 = null;
             try {
                 f1 = new File("/sdcard/bot/" + q + "-device.json");
-                f1.getParentFile().mkdirs();
-                f1.createNewFile();
+                if (!f1.exists()) {
+                    createDeviceFile(f1);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -147,6 +150,16 @@ public class MyService extends Service {
                 }
 
                 @EventHandler
+                public void onMessage(@NotNull StrangerMessageEvent event) throws Exception {
+                    String s0 = getStringFromMessageChain(event);
+                    if (qid == null || qid != event.getSender().getId()) {
+                        s0 = "一个陌生人给你发了: " + s0;
+                    }
+                    VoicePlayer.getInstance().appendSpeak(s0);
+                    qid = event.getSender().getId();
+                }
+
+                @EventHandler
                 public void onMessage(@NotNull GroupMessageEvent event) throws Exception {
                     if (containsAtMe(event)) {
                         String s0 = getStringFromMessageChain(event);
@@ -158,6 +171,43 @@ public class MyService extends Service {
             });
         });
         return START_STICKY;
+    }
+
+    private void createDeviceFile(File f1) throws IOException {
+        f1.getParentFile().mkdirs();
+        f1.createNewFile();
+        JSONObject jsonObject = JSON.parseObject("{\n" +
+                "    \"deviceInfoVersion\": 2,\n" +
+                "    \"data\": {\n" +
+                "        \"display\": \"MIRAI.758805.001\",\n" +
+                "        \"product\": \"mirai\",\n" +
+                "        \"device\": \"mirai\",\n" +
+                "        \"board\": \"mirai\",\n" +
+                "        \"brand\": \"mamoe\",\n" +
+                "        \"model\": \"mirai\",\n" +
+                "        \"bootloader\": \"unknown\",\n" +
+                "        \"fingerprint\": \"mamoe/mirai/mirai:10/MIRAI.200122.001/3638038:user/release-keys\",\n" +
+                "        \"bootId\": \"0D1E035A-2D96-D8A6-07BF-F9E812D8DEFD\",\n" +
+                "        \"procVersion\": \"Linux version 3.0.31-xb2W51sH (android-build@xxx.xxx.xxx.xxx.com)\",\n" +
+                "        \"baseBand\": \"\",\n" +
+                "        \"version\": {\n" +
+                "            \"incremental\": \"5891938\",\n" +
+                "            \"release\": \"10\",\n" +
+                "            \"codename\": \"REL\"\n" +
+                "        },\n" +
+                "        \"simInfo\": \"T-Mobile\",\n" +
+                "        \"osType\": \"android\",\n" +
+                "        \"macAddress\": \"02:00:00:00:00:00\",\n" +
+                "        \"wifiBSSID\": \"02:00:00:00:00:00\",\n" +
+                "        \"wifiSSID\": \"<unknown ssid>\",\n" +
+                "        \"imsiMd5\": \"9f601d1b0b77581d96178e596b28df75\",\n" +
+                "        \"imei\": \"959896676458509\",\n" +
+                "        \"apn\": \"wifi\"\n" +
+                "    }\n" +
+                "}");
+        jsonObject.getJSONObject("data").put("imsiMd5", SystemUtil.md5(SystemUtil.getSimOperator()));
+        jsonObject.getJSONObject("data").put("imei", SystemUtil.getDeviceId(this));
+        FileUtils.putStringInFile(JSON.toJSONString(jsonObject, true), f1);
     }
 
     private boolean containsAtMe(MessageEvent event) {
