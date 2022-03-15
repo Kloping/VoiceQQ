@@ -11,10 +11,7 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.FriendMessageEvent;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.event.events.MessageEvent;
-import net.mamoe.mirai.event.events.StrangerMessageEvent;
+import net.mamoe.mirai.event.events.*;
 import net.mamoe.mirai.message.data.*;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -151,6 +148,16 @@ public class MyService extends Service {
 
                 @EventHandler
                 public void onMessage(@NotNull StrangerMessageEvent event) throws Exception {
+                    String s0 = getStringFromMessageChain(event);
+                    if (qid == null || qid != event.getSender().getId()) {
+                        s0 = "一个陌生人给你发了: " + s0;
+                    }
+                    VoicePlayer.getInstance().appendSpeak(s0);
+                    qid = event.getSender().getId();
+                }
+
+                @EventHandler
+                public void onMessage(@NotNull GroupTempMessageEvent event) throws Exception {
                     String s0 = getStringFromMessageChain(event);
                     if (qid == null || qid != event.getSender().getId()) {
                         s0 = "一个陌生人给你发了: " + s0;
