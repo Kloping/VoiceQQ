@@ -7,7 +7,6 @@ import android.graphics.Color;
  */
 public enum ColorA {
     RESET("\u001B[0m", Color.parseColor("#FF1C1D2C")),
-
     WHITE("\u001B[30m", Color.WHITE),
     RED("\u001B[31m", Color.RED),
     EMERALD_GREEN("\u001B[32m", Color.GREEN),
@@ -15,7 +14,6 @@ public enum ColorA {
     BLUE("\u001B[34m", Color.BLUE),
     PURPLE("\u001B[35m", Color.BLACK),
     GREEN("\u001B[36m", Color.GREEN),
-
     GRAY("\u001B[90m", Color.GRAY),
     LIGHT_RED("\u001B[91m", Color.RED),
     LIGHT_GREEN("\u001B[92m", Color.parseColor("#FF009732")),
@@ -23,10 +21,8 @@ public enum ColorA {
     LIGHT_BLUE("\u001B[94m", Color.BLUE),
     LIGHT_PURPLE("\u001B[95m", Color.BLACK),
     LIGHT_CYAN("\u001B[96m", Color.CYAN);
-
     private String m1;
     private int color;
-
     public static Object[] getColorString(String m1) {
         int color = Color.BLACK;
         if (m1.startsWith("\u001B["))

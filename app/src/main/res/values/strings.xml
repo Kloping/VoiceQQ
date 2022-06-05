@@ -15,4 +15,5 @@
     <string name="ipad">ipad</string>
     <string name="watch">watch</string>
     <string name="vbase">语音链接</string>
+    <string name="action_task_in">时间任务</string>
 </resources>

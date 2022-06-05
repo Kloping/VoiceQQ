@@ -26,8 +26,6 @@ import java.util.concurrent.Executors;
  * @author github-kloping
  */
 public class MyService extends Service {
-
-
     /**
      * 绑定的客户端接口
      */
@@ -54,15 +52,15 @@ public class MyService extends Service {
                 }
             } else if (o instanceof FlashImage) {
                 FlashImage flashImage = (FlashImage) o;
-                sb.append("[一张闪照").append(Image.queryUrl(flashImage.getImage())).append("]");
+                sb.append("[闪照").append(Image.queryUrl(flashImage.getImage())).append("]");
             } else if (o instanceof Audio) {
-                sb.append("[一条语音").append(((Audio) o).getFilename()).append("]");
+                sb.append("[语音").append(((Audio) o).getFilename()).append("]");
             } else if (o instanceof Face) {
                 Face face = (Face) o;
                 sb.append("[Face:" + face.getName() + "]");
             } else if (o instanceof Image) {
                 Image image = (Image) o;
-                sb.append("[一张图片]");
+                sb.append("[图片]");
             } else {
                 continue;
             }

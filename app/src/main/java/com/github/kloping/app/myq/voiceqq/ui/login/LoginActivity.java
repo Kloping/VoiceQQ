@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity implements ListenerHost {
     private static final int REQUEST_PERMISSION_OK = 101;
     private ActivityLoginBinding binding;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements ListenerHost {
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, 10);
         SystemUtil.context = this;
         System.err.println("初始化完成");
+        binding.task.setOnClickListener(this::onClick);
     }
 
     OutManager manager;
@@ -115,9 +115,16 @@ public class LoginActivity extends AppCompatActivity implements ListenerHost {
             case R.id.radiobutton3:
                 MyService.protocol = BotConfiguration.MiraiProtocol.ANDROID_WATCH;
                 break;
+            case R.id.task:
+                showTask();
+                break;
             default:
                 break;
         }
+    }
+
+    private void showTask() {
+
     }
 
     private void showLoginFailed(String errorString) {
