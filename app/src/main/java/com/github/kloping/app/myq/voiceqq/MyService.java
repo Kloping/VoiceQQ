@@ -221,7 +221,7 @@ public class MyService extends Service {
             if (singleMessage instanceof At) {
                 At at = (At) singleMessage;
                 if (at.getTarget() == iid) return true;
-            }
+            } else if (singleMessage instanceof AtAll) return true;
         }
         return false;
     }
